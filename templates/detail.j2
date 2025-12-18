@@ -1,0 +1,27 @@
+{% extends "base.j2" %}
+{% block title %}
+  <title>商品一覧</title>
+{% endblock title %}
+{% block header %}
+  <h1>商品一覧</h1>
+  <hr />
+{% endblock header %}
+{% block nav %}
+  {{ super() }}
+{% endblock nav %}
+{% block content %}
+<ul>
+	{% for list in lists %}
+		<li>{{ list }}</li>
+	{% endfor %}
+	<li>名前：{{ dicts.name }}</li>
+	<li>年齢：{{ dicts['age'] }}</li>
+	{% for key, value in dicts.items() %}
+		<li>{{ key }}：{{ value }}</li>
+	{% endfor %}
+	{% for obj in objs %}
+		<li><a href="{{ url_for('fruits_detail', id = obj.id) }}">{{ obj.name| original }}</a></li>
+	{% endfor %}
+</ul>
+{% endblock content %}
+{% block footer %}{{ super }}{% endblock footer %}

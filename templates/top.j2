@@ -1,0 +1,16 @@
+{% extends "base.j2" %}
+{% block title %}
+  <title>トップページ</title>
+{% endblock title %}
+{% block header %}
+  <h1>トップ：画面</h1>
+  <hr />
+{% endblock header %}
+{% block nav %}{{ super() }}{% endblock nav %}
+{% block content %}{% endblock content %}
+{% block footer %}
+  <ul>
+    {% block footer_top %}{{ super }}{% endblock footer_top %}
+    <a href="{{ url_for('item_detail') }}"></a>
+  </ul>
+{% endblock footer %}

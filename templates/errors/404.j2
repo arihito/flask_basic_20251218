@@ -1,0 +1,15 @@
+{% extends "base.j2" %}
+{% block title %}
+  <title>404エラーページ</title>
+{% endblock title %}
+{% block header %}
+  <h1>404エラーページ</h1>
+  <hr />
+{% endblock header %}
+{% block nav %}
+  {{ super() }}
+{% endblock nav %}
+{% block content %}
+  <p>トップに戻ってください。</p>
+{% endblock content %}
+{% block footer %}{{ super }}{% endblock footer %}
