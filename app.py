@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, request, redirect, url_for
+from forms import UserForm
 
 # インスタンス生成
 app = Flask(__name__)
@@ -23,8 +24,11 @@ class Item:
 
     def __str__(self):
         return f"商品ID:{self.id} 商品名:{self.name}"
+
+
 def get_fruits():
-  return [Item(1, "りんご"), Item(2, "ばなな"), Item(3, "ぶどう")]
+    return [Item(1, "りんご"), Item(2, "ばなな"), Item(3, "ぶどう")]
+
 
 # 詳細
 @app.route("/detail")
@@ -62,16 +66,67 @@ def dynamic_converter_multiple(value, number):
     print(f"型:{type(number)}, 値:{number}")
     return f"<h1>渡された値は「{value}と{number}」です</h1>"
 
+
 # カスタムフィルター(span要素ラップ)
-@app.template_filter('original')
+@app.template_filter("original")
 def add_span(value):
-	return f'<span>{value}</span>'
+    return f"<span>{value}</span>"
+
 
 # 404エラーページ
 @app.errorhandler(404)
 def show_404_page(error):
-	print('コンソール表示メッセージ：', error.description)
-	return render_template('errors/404.j2'), 404 
+    print("コンソール表示メッセージ：", error.description)
+    return render_template("errors/404.j2"), 404
+
+
+@app.route("/get")
+def do_get():
+    name = request.args.get("name")
+    return f"GETでこんにちは、{name}さん"
+
+
+@app.route("/form", methods=["GET", "POST"])
+def do_get_post():
+    if request.method == "POST":
+        name = request.form.get("name")
+        return f"POSTでこんにちは、{name}さん"
+    return """
+  <h2>POSTで送信</h2>
+  <form method="post">
+    <p>名前：<input type="text" name="name"></p>
+    <p><input type="submit" value="送信"></p>
+  </form>
+  """
+
+
+import os
+
+app.config["SECRET_KEY"] = os.urandom(24)
+
+
+# フォーム
+@app.route("/userform", methods=["GET", "POST"])
+def show_form():
+    form = UserForm()
+    if form.validate_on_submit():
+        session["name"] = form.name.data
+        session["age"] = form.age.data
+        return redirect(url_for("thanks.j2"))
+    # GET
+    if "name" in session:
+        # セッションからフォームに値を渡す
+        form.name.data = session["name"]
+    if "age" in session:
+        form.age.data = session["age"]
+    return render_template("enter.j2", form=form)
+
+
+@app.route("/thanks")
+def thanks():
+    # シンプルなGET送信
+    return render_template("thanks.j2")
+
 
 # 実行
 if __name__ == "__main__":

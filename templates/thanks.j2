@@ -1,0 +1,25 @@
+{% extends "base.j2" %}
+{% block title %}入力結果{% endblock title %}
+{% block header %}
+  <h1>入力結果</h1>
+  <hr />
+{% endblock header %}
+{% block nav %}
+  {{ super() }}
+{% endblock nav %}
+{% block content %}
+<ul>
+	<li>名前： {{ form.name.data }}</li>
+	<li>年齢： {{ form.age.data }}</li>
+	<li>パスワード： {{ form.password.data }}</li>
+	<li>確認用： {{ form.confirm.data }}</li>
+	<li>Email： {{ form.email.data }}</li>
+	<li>生年月日： {{ form.birthday.data }}</li>
+	<li>性別： {{ form.gender.data }}</li>
+	<li>地域： {{ form.area.data }}</li>
+	<li>既婚： {{ form.is_married.data }}</li>
+	<li>備考： {{ form.note.data }}</li>
+</ul>
+
+{% endblock content %}
+{% block footer %}{{ super }}{% endblock footer %}

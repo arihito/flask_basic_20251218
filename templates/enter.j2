@@ -1,0 +1,28 @@
+{% extends "base.j2" %}
+{% block title %}入力フォーム{% endblock title %}
+{% block header %}
+  <h1>入力フォーム</h1>
+  <hr />
+{% endblock header %}
+{% block nav %}
+  {{ super() }}
+{% endblock nav %}
+{% block content %}
+{% from "_formhelpers.j2" import render_field %}
+
+	<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+		{{ render_field(form.name) }}
+		{{ render_field(form.age) }}
+		{{ render_field(form.password) }}
+		{{ render_field(form.confirm) }}
+		{{ render_field(form.email) }}
+		{{ render_field(form.birthday) }}
+		{{ render_field(form.gender) }}
+		{{ render_field(form.area) }}
+		{{ render_field(form.is_married) }}
+		{{ render_field(form.note) }}
+		{{ form.submit() }}
+	</form>
+{% endblock content%}
+{% block footer %}{{ super }}{% endblock footer %}
